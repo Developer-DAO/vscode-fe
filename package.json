@@ -1,0 +1,126 @@
+{
+    "name": "fe",
+    "displayName": "Fe",
+    "description": "VsCode plugin for Fe smart contract programming language.",
+    "publisher": "devdao",
+    "license": "Apache-2.0",
+    "version": "0.0.1",
+    "preview": true,
+    "homepage": "https://github.com/Developer-DAO/vscode-fe",
+    "repository": {
+        "url": "https://github.com/Developer-DAO/vscode-fe.git",
+        "type": "git"
+    },
+    "bugs": {
+        "url": "https://github.com/Developer-DAO/vscode-fe/issues"
+    },
+    "engines": {
+        "vscode": "^1.58.2"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "keywords": [
+        "fe",
+        "smart contract",
+        "ethereum"
+    ],
+    "main": "./out/src/main.js",
+    "activationEvents": [
+        "onLanguage:fe"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "fe.serverVersion",
+                "title": "Show Server Version for fls",
+                "category": "VsCode Fe"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "VsCode Fe",
+            "properties": {
+                "fe.server.path": {
+                    "type": "string",
+                    "default": "/usr/bin/fls",
+                    "markdownDescription": "Absolute path of the fls executable, e.g. `/usr/bin/fls`."
+                },
+                "fe.trace.server": {
+                    "type": "string",
+                    "scope": "window",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "enumDescriptions": [
+                        "Do not log any messages.",
+                        "Log short summaries of each message.",
+                        "Log each message and its contents."
+                    ],
+                    "default": "off",
+                    "description": "Traces the communication between the Fe language server and Visual Studio Code. Note that this log can be very verbose, and so not recommended for anyone besides people working on or debugging fls itself."
+                }
+            }
+        },
+        "grammars": [
+            {
+                "language": "fe",
+                "scopeName": "source.fe",
+                "path": "./fe.tmLanguage.json"
+            }
+        ],
+        "languages": [
+            {
+                "id": "fe",
+                "aliases": [
+                    "Fe",
+                    "fe"
+                ],
+                "extensions": [
+                    ".fe"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "fe.serverVersion"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "lint": "tsfmt --verify && eslint . --ext ts --max-warnings 0",
+        "fix": "tsfmt --replace && eslint . --ext ts --fix",
+        "pretest": "npm run compile && npm run lint",
+        "test": "node ./out/tests/runTests.js",
+        "vscode:prepublish": "npm run pretest",
+        "package": "vsce package -o vscode-fe.vsix",
+        "publish": "npm run pretest && npm run test && vsce publish"
+    },
+    "dependencies": {
+        "vscode-languageclient": "6.1.4"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.4",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "^14.17.22",
+        "@types/vscode": "^1.58.2",
+        "@typescript-eslint/eslint-plugin": "^4.33.0",
+        "@typescript-eslint/parser": "^4.33.0",
+        "@vscode/test-electron": "^1.6.1",
+        "eslint": "^7.32.0",
+        "eslint-plugin-tsdoc": "^0.2.14",
+        "glob": "^7.1.7",
+        "mocha": "^9.1.1",
+        "typescript": "^4.4.4",
+        "typescript-formatter": "^7.2.2",
+        "vsce": "^2.5.1",
+        "vscode-test": "^1.6.1"
+    }
+}
