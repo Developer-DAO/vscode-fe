@@ -89,6 +89,13 @@
                 {
                     "command": "fe.serverVersion"
                 }
+            ],
+            "editor/context": [
+                {
+                    "when": "editorTextFocus && editorLangId == 'fe'",
+                    "command": "fe.serverVersion",
+                    "group": "1_fe"
+                }
             ]
         }
     },
